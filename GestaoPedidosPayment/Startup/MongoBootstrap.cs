@@ -1,4 +1,7 @@
 ﻿using Microsoft.Extensions.Options;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson;
 using MongoDB.Driver;
 
 namespace GestaoPedidosPayment.Startup
@@ -12,7 +15,10 @@ namespace GestaoPedidosPayment.Startup
 
             builder.Services.AddSingleton<IMongoClient>(sp =>
             {
+                BsonSerializer.RegisterSerializer(new GuidSerializer(BsonType.String));
+
                 var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
+                
                 return new MongoClient(settings.ConnectionString);
             });
 

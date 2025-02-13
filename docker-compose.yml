@@ -1,0 +1,12 @@
+networks:
+  gestaopedidospayment-network:
+    driver: bridge
+
+services:
+  gestaopedidospayment:
+    image: ${DOCKER_REGISTRY-}gestaopedidospayment
+    build:
+      context: .
+      dockerfile: GestaoPedidosPayment/Dockerfile
+    networks:
+      - gestaopedidospayment-network

@@ -5,6 +5,6 @@
         Pending,
         Completed,
         Failed,
-        Refunded
+        Canceled
     }
 }

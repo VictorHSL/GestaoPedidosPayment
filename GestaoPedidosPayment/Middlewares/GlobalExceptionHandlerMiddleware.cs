@@ -21,7 +21,6 @@ namespace GestaoPedidosPayment.Middlewares
             }
             catch (Exception ex)
             {
-                unitOfWork.Rollback();
                 _logger.LogError(ex, "An unhandled exception occurred.");
 
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;

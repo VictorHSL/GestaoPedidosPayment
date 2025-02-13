@@ -1,14 +1,16 @@
 ﻿using GestaoPedidosPayment.Core.Entities;
 using GestaoPedidosPayment.Core.Repositories;
 using MongoDB.Driver;
+using MongoDB.Driver.Linq;
+using System.Linq.Expressions;
 
 namespace GestaoPedidosPayment.Repositories
 {
-    public class MongoRepository<T> : IRepository<T> where T : BaseEntity
+    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private readonly IMongoCollection<T> _collection;
+        protected readonly IMongoCollection<T> _collection;
 
-        public MongoRepository(IMongoDatabase database, string collectionName)
+        public BaseRepository(IMongoDatabase database, string collectionName)
         {
             _collection = database.GetCollection<T>(collectionName);
         }
@@ -20,13 +22,17 @@ namespace GestaoPedidosPayment.Repositories
 
         public async Task<T> GetByIdAsync(Guid id)
         {
-            var filter = Builders<T>.Filter.Eq(e => e.Id, id);
-            return await _collection.Find(filter).FirstOrDefaultAsync();
+            return await _collection.AsQueryable().FirstOrDefaultAsync(e => e.Id == id);
+        }
+
+        public async Task<T?> FindOneAsync(Expression<Func<T, bool>> predicate)
+        {
+            return await _collection.Find(predicate).FirstOrDefaultAsync();
         }
 
         public async Task<List<T>> GetAllAsync()
         {
-            return await _collection.Find(_ => true).ToListAsync();
+            return await _collection.AsQueryable().ToListAsync();
         }
 
         public async Task UpdateAsync(T entity)

@@ -8,38 +8,22 @@ namespace GestaoPedidosPayment.Repositories
     public class UnitOfWork : IUnitOfWork
     {
         private readonly IMongoDatabase _database;
-        private readonly IClientSessionHandle _session;
+        private readonly Dictionary<Type, object> _repositories = new();
         private bool _disposed = false;
 
         public UnitOfWork(IMongoClient client, string databaseName)
         {
-            _session = client.StartSession();
-            _session.StartTransaction();
-            _database = _session.Client.GetDatabase(databaseName);
+            _database = client.GetDatabase(databaseName);
         }
 
         public IRepository<T> GetRepository<T>() where T : BaseEntity
         {
-            return new MongoRepository<T>(_database, typeof(T).Name);
-        }
-
-        public async Task<bool> CommitAsync()
-        {
-            try
+            if (!_repositories.ContainsKey(typeof(T)))
             {
-                await _session.CommitTransactionAsync();
-                return true;
+                _repositories[typeof(T)] = new BaseRepository<T>(_database, typeof(T).Name);
             }
-            catch
-            {
-                Rollback();
-                return false;
-            }
-        }
 
-        public void Rollback()
-        {
-            _session.AbortTransaction();
+            return (IRepository<T>)_repositories[typeof(T)];
         }
 
         public void Dispose()
@@ -52,12 +36,9 @@ namespace GestaoPedidosPayment.Repositories
         {
             if (!_disposed)
             {
-                if (disposing)
-                {
-                    _session.Dispose();
-                }
                 _disposed = true;
             }
         }
     }
+
 }

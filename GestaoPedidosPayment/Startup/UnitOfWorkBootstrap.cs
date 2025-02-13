@@ -15,6 +15,8 @@ namespace GestaoPedidosPayment.Startup
                 var settings = sp.GetRequiredService<IOptions<MongoDBSettings>>().Value;
                 return new UnitOfWork(client, settings.DatabaseName);
             });
+
+            return builder;
         }
     }
 }
