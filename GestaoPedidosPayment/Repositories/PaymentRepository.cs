@@ -4,10 +4,10 @@ using MongoDB.Driver;
 
 namespace GestaoPedidosPayment.Repositories
 {
-    public class PaymentRepository : BaseRepository<Payment>, IPaymentRepository
+    public class PaymentMongoRepository : BaseMongoRepository<Payment>, IPaymentRepository
     {
         private const string CollectionName = "PaymentRequests";
-        public PaymentRepository(IMongoDatabase database): base(database, CollectionName)
+        public PaymentMongoRepository(IMongoDatabase database): base(database, CollectionName)
         {
 
         }

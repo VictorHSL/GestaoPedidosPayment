@@ -1,4 +1,5 @@
 ﻿using GestaoPedidosPayment.Core.Shared.Infra;
+using Newtonsoft.Json;
 
 namespace GestaoPedidosPayment.Middlewares
 {
@@ -24,7 +25,12 @@ namespace GestaoPedidosPayment.Middlewares
                 _logger.LogError(ex, "An unhandled exception occurred.");
 
                 context.Response.StatusCode = StatusCodes.Status500InternalServerError;
-                await context.Response.WriteAsync("An unexpected error occurred. Please try again later.");
+                
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(new
+                {
+                    ErrorMessage = "An unexpected error occurred. Please try again later.",
+                    ExceptionMessage = ex.ToString()
+                }));
             }
         }
     }

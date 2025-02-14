@@ -1,8 +1,7 @@
 using GestaoPedidosPayment.Core.Shared.Infra;
+using GestaoPedidosPayment.ExternalServices;
 using GestaoPedidosPayment.Middlewares;
 using GestaoPedidosPayment.Startup;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Options;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -19,6 +18,9 @@ builder.Services.Scan(scan => scan
         .AsImplementedInterfaces()
         .WithSingletonLifetime()
 );
+
+builder.Services.AddSingleton<IPaymentGatewayService, MercadoPagoPaymentGatewayService>();
+builder.Services.AddHttpClient();
 
 builder
     .AddMongoDb()

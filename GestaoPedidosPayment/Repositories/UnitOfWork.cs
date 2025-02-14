@@ -20,7 +20,7 @@ namespace GestaoPedidosPayment.Repositories
         {
             if (!_repositories.ContainsKey(typeof(T)))
             {
-                _repositories[typeof(T)] = new BaseRepository<T>(_database, typeof(T).Name);
+                _repositories[typeof(T)] = new BaseMongoRepository<T>(_database, typeof(T).Name);
             }
 
             return (IRepository<T>)_repositories[typeof(T)];

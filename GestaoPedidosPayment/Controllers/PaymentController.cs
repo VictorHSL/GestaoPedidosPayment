@@ -46,5 +46,12 @@ namespace GestaoPedidosPayment.Controllers
             await _paymentAppService.CancelPayment(id, reason);
             return NoContent();
         }
+
+        [HttpPost("{id}/complete")]
+        public async Task<IActionResult> MarkPaymentAsCompleted(Guid id)
+        {
+            await _paymentAppService.SetCompleted(id);
+            return Ok();
+        }
     }
 }

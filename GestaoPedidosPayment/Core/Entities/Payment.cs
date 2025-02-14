@@ -9,5 +9,10 @@ namespace GestaoPedidosPayment.Core.Entities
         public decimal Amount { get; set; }
         public PaymentStatus Status { get; set; }
         public string? Comments { get; set; }
+
+        public void SetPaymentId(string paymentId)
+        {
+            PaymentId = paymentId;
+        }
     }
 }

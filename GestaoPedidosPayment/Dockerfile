@@ -7,6 +7,8 @@ WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
 
+ENV WebHookUrl=http://your-webhook-url
+ENV MongoConnectionString=mongodb://admin:password@mongo_db:27017/
 
 # This stage is used to build the service project
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build

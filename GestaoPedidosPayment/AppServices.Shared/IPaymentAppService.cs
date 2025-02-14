@@ -10,5 +10,7 @@ namespace GestaoPedidosPayment.AppServices.Shared
         Task<PaymentDto> GetPayment(string orderId);
         Task CancelPayment(Guid id, string? reason = null);
         Task CancelPayment(string orderId, string? reason = null);
+
+        Task SetCompleted(Guid id);
     }
 }

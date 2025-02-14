@@ -43,5 +43,10 @@ namespace GestaoPedidosPayment.AppServices
         {
             await _paymentManager.CancelPayment(orderId, reason);
         }
+
+        public async Task SetCompleted(Guid id)
+        {
+            await _paymentManager.SetCompleted(id);
+        }
     }
 }

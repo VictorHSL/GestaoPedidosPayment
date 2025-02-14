@@ -6,11 +6,11 @@ using System.Linq.Expressions;
 
 namespace GestaoPedidosPayment.Repositories
 {
-    public class BaseRepository<T> : IRepository<T> where T : BaseEntity
+    public class BaseMongoRepository<T> : IRepository<T> where T : BaseEntity
     {
         protected readonly IMongoCollection<T> _collection;
 
-        public BaseRepository(IMongoDatabase database, string collectionName)
+        public BaseMongoRepository(IMongoDatabase database, string collectionName)
         {
             _collection = database.GetCollection<T>(collectionName);
         }
@@ -22,7 +22,7 @@ namespace GestaoPedidosPayment.Repositories
 
         public async Task<T> GetByIdAsync(Guid id)
         {
-            return await _collection.AsQueryable().FirstOrDefaultAsync(e => e.Id == id);
+            return await _collection.Find(x => x.Id == id).FirstOrDefaultAsync();
         }
 
         public async Task<T?> FindOneAsync(Expression<Func<T, bool>> predicate)

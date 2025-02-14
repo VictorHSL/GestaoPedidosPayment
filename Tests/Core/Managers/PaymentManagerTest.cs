@@ -142,5 +142,38 @@ namespace Tests.Core.Managers
             Assert.Equal("Failed Reason", payment.Comments);
             await _paymentRepository.Received(1).UpdateAsync(payment);
         }
+
+        [Fact(DisplayName = "Should update status to Failed with a reason when payment exists by OrderId")]
+        public async Task SetFailed_ByOrderId_ShouldUpdateStatusToFailed_WhenPaymentExists()
+        {
+            var payment = new Payment { Status = PaymentStatus.Pending };
+            _paymentRepository.GetByOrderIdAsync(Arg.Any<string>()).Returns(payment);
+
+            await _paymentManager.SetFailed("123", "Failure Reason");
+
+            Assert.Equal(PaymentStatus.Failed, payment.Status);
+            Assert.Equal("Failure Reason", payment.Comments);
+            await _paymentRepository.Received(1).UpdateAsync(payment);
+        }
+
+        [Fact(DisplayName = "Should return a payment when found by PaymentId")]
+        public async Task GetPayment_ShouldReturnPayment_WhenFoundByPaymentId()
+        {
+            var paymentId = Guid.NewGuid();
+            var payment = new Payment { Id = paymentId };
+            _paymentRepository.GetByIdAsync(paymentId).Returns(payment);
+
+            var result = await _paymentManager.GetPayment(paymentId);
+
+            Assert.Equal(payment, result);
+        }
+
+        [Fact(DisplayName = "Should throw Exception when payment is not found by PaymentId")]
+        public async Task GetPayment_ShouldThrowException_WhenPaymentNotFoundByPaymentId()
+        {
+            _paymentRepository.GetByIdAsync(Arg.Any<Guid>()).Returns((Payment)null);
+
+            await Assert.ThrowsAsync<Exception>(() => _paymentManager.GetPayment(Guid.NewGuid()));
+        }
     }
 }
