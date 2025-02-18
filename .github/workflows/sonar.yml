@@ -50,5 +50,6 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"VictorHSL_GestaoPedidosPayment" /o:"victorhsl" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build Tests/GestaoPedidosPaymentTests.csproj --no-incremental
+          dotnet build GestaoPedidosPayment.sln --no-incremental
+          dotnet test Tests/GestaoPedidosPaymentTests.csproj --collect:“Code Coverage”
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
