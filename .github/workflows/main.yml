@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - "master"
+  pull_request:
+    types: [opened, synchronize, reopened]
 
 env:
   REGION_DEFAULT: "us-east-1"
@@ -48,9 +50,9 @@ jobs:
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"VictorHSL_GestaoPedidosPayment" /o:"victorhsl" /d:sonar.token="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
-          dotnet build
+          dotnet build GestaoPedidosPayment.sln
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
-          
+
   deploy:
     name: Deploy AWS Academy
     runs-on: ubuntu-latest
