@@ -23,9 +23,9 @@ spec:
             - containerPort: 8081
           env:
             - name: WebHookUrl
-              value: "http://your-webhook-url"
+              value: "${{WEBHOOK_URL}}"
             - name: MongoConnectionString
-              value: "mongodb+srv://<db_user>:<db_password>@cluster0.xebob.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+              value: "${{MONGODB_CONNECTION_STRING}}"
           resources:
             requests:
               cpu: "100m"
