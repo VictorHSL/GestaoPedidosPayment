@@ -4,6 +4,8 @@ using GestaoPedidosPayment.Core.Managers;
 using GestaoPedidosPayment.Core.Repositories;
 using GestaoPedidosPayment.Core.Shared.Infra;
 using GestaoPedidosPayment.Core.Shared.ValueObjects;
+using GestaoPedidosPayment.ExternalServices;
+using Microsoft.Extensions.Configuration;
 using Xunit;
 using NSubstitute;
 
@@ -13,13 +15,17 @@ namespace Tests.Core.Managers
     {
         private readonly IPaymentRepository _paymentRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IPaymentGatewayService _paymentGatewayService;
+        private readonly IConfiguration _configuration;
         private readonly PaymentManager _paymentManager;
 
         public PaymentManagerTest()
         {
             _paymentRepository = Substitute.For<IPaymentRepository>();
             _unitOfWork = Substitute.For<IUnitOfWork>();
-            _paymentManager = new PaymentManager(_paymentRepository, _unitOfWork);
+            _configuration = Substitute.For<IConfiguration>();
+            _paymentGatewayService = Substitute.For<IPaymentGatewayService>();
+            _paymentManager = new PaymentManager(_paymentRepository, _unitOfWork, _paymentGatewayService, new HttpClient(), _configuration);
         }
 
         [Fact(DisplayName = "Should throw InvalidOperationException when OrderId already exists")]

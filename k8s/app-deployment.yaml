@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gestao-pedidos-payment
+  labels:
+    app: gestao-pedidos-payment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gestao-pedidos-payment
+  template:
+    metadata:
+      labels:
+        app: gestao-pedidos-payment
+    spec:
+      containers:
+        - name: gestao-pedidos-payment
+          image: gestaopedidospayment:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+            - containerPort: 8081
+          env:
+            - name: WebHookUrl
+              value: "http://your-webhook-url"
+            - name: MongoConnectionString
+              value: "mongodb+srv://<db_user>:<db_password>@cluster0.xebob.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+          resources:
+            requests:
+              cpu: "100m"
+            limits:
+              cpu: "200m"

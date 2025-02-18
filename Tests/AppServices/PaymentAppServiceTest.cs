@@ -84,5 +84,18 @@ namespace Tests.AppServices
 
             await _paymentManager.Received(1).CancelPayment(orderId, "Test Reason");
         }
+
+        [Fact(DisplayName = "SetCompleted should call SetCompleted on IPaymentManager")]
+        public async Task SetCompleted_ShouldCallSetCompleted_OnIPaymentManager()
+        {
+            // Arrange
+            var paymentId = Guid.NewGuid();
+
+            // Act
+            await _paymentAppService.SetCompleted(paymentId);
+
+            // Assert
+            await _paymentManager.Received(1).SetCompleted(paymentId);
+        }
     }
 }

@@ -5,7 +5,7 @@ VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoPedidosPayment", "GestaoPedidosPayment\GestaoPedidosPayment.csproj", "{03EF7FE5-78E2-4D79-B4A4-3CD9EBDDBAA9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{97604B55-343A-410A-BE4F-B7AFF98BEFFA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaoPedidosPaymentTests", "Tests\GestaoPedidosPaymentTests.csproj", "{97604B55-343A-410A-BE4F-B7AFF98BEFFA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

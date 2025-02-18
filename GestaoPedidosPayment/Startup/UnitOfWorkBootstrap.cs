@@ -7,7 +7,7 @@ namespace GestaoPedidosPayment.Startup
 {
     public static class UnitOfWorkBootstrap
     {
-        public static WebApplicationBuilder AddUnitOfWork(this WebApplicationBuilder builder)
+        public static IHostApplicationBuilder AddUnitOfWork(this IHostApplicationBuilder builder)
         {
             builder.Services.AddScoped<IUnitOfWork, UnitOfWork>(sp =>
             {
