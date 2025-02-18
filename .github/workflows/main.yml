@@ -18,17 +18,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Update app-deployment.yaml
-        uses: fjogeleit/yaml-update-action@main
-        with:
-          valueFile: 'k8s/app-deployment.yaml'
-          propertyPath: 'spec.template.spec.containers[0].env'
-          value: |
-            - name: WebHookUrl
-              value: "${{ secrets.WEBHOOK_URL }}"
-            - name: MongoConnectionString
-              value: "${{ secrets.MONGODB_CONNECTION_STRING }}"
-          commitChange: false
+      - name: Create Kubernetes Secret
+        run: |
+          kubectl create secret generic api-secrets \
+            --from-literal=WEBHOOK_URL=${{ secrets.WEBHOOK_URL }} \
+            --from-literal=MONGODB_CONNECTION_STRING=${{ secrets.MONGODB_CONNECTION_STRING }}
 
       - name: AWS Configure
         uses: aws-actions/configure-aws-credentials@v4

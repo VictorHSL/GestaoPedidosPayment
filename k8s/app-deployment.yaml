@@ -23,9 +23,15 @@ spec:
             - containerPort: 8081
           env:
             - name: WebHookUrl
-              value: "${{WEBHOOK_URL}}"
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: WEBHOOK_URL
             - name: MongoConnectionString
-              value: "${{MONGODB_CONNECTION_STRING}}"
+              valueFrom:
+                secretKeyRef:
+                  name: api-secrets
+                  key: MONGODB_CONNECTION_STRING
           resources:
             requests:
               cpu: "100m"
