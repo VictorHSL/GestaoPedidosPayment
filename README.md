@@ -1,6 +1,6 @@
-# order_api
+# payment_api
 
-API Rest para o microsserviço de gestão de pedidos
+API Rest para o microserviço de pagamentos para gestão de pedidos
 
 
 ## 📝 Índice
